@@ -9,6 +9,7 @@ urlpatterns = [
         path('v1/', include(
             [
             path('courses/', views.courses),
+            path('kanji/<int:id>/', views.kanji),
             ])
         ),
     ])),

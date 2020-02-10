@@ -8,3 +8,13 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+class Kanji(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    kanji = models.TextField()
+    kunyomi = models.TextField()
+    onyomi = models.TextField()
+    radicals = models.TextField(null=True)
+    definition = models.TextField()
+    def __str__(self):
+        return self.definition
+
