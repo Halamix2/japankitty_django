@@ -338,3 +338,7 @@ INSERT INTO `jk_kanji` (`id`, `course_id`, `kanji`, `kunyomi`, `onyomi`, `radica
 (8, 11, '道', 'みち', 'ドウ、 トウ', NULL, 'droga'),
 (9, 11, '犬', 'いぬ', 'ケン', NULL, 'pies');
 
+INSERT INTO `jk_text` (`id`, `offerDescription`, `offerOption1`, `offerOption2`, `offerOption3`, `contactDescription`, `aboutCourse`) VALUES
+(1, 'Serwis jest nieustannie rozwijany', 'Szeroka baza słówek', 'Znaczenia znaków', 'Różne gry do wyboru', 'W razie pytań skontaktuj się z nami pod adresem japankitty@halamix2.pl', 'Język japoński - język używany przez ok. 130 mln mieszkańców Japonii oraz japońskich emigrantów na wszystkich kontynentach. Najstarsze znane teksty to pochodzące z V i VI wieku nazwy własne. Nie mówią jednak one wiele o języku. Najstarsze dłuższe teksty pochodzą z VIII wieku (kiki). Już wtedy zaczęto używać znaków chińskich do sylabicznego zapisu wymowy\n\nJednak pewne sylaby, które są identyczne we współczesnym japońskim, były zapisywane różnymi znakami i był to zapis konsekwentny. Świadczy to o tym, że dawny japoński miał więcej samogłosek (lub ogólniej: typów sylab) – osiem, zamiast współczesnych pięciu, za to nie rozróżniał długości samogłosek, tak jak to czyni współczesny japoński.');
+
+
