@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
-from .models import Course, Kanji, Vocabulary, User
+from .models import Course, Kanji, Vocabulary, Text, User
 from .serializers import RegisterSerializer
 #registration
 from rest_framework.views import APIView
