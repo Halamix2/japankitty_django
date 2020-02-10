@@ -11,6 +11,9 @@ pip3 install Django django-rest-framework django-oauth-toolkit django-cors-middl
 # How to start from 0
 ```python
 # (re)create database
+python manage.py makemigrations jk
+python manage.py migrate jk
+
 python manage.py makemigrations
 python manage.py migrate
 
