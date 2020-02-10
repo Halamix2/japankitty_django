@@ -10,6 +10,7 @@ urlpatterns = [
             [
             path('courses/', views.courses),
             path('kanji/<int:id>/', views.kanji),
+            path('vocabulary/<int:id>/', views.vocabulary),
             ])
         ),
     ])),

@@ -18,3 +18,11 @@ class Kanji(models.Model):
     def __str__(self):
         return self.definition
 
+class Vocabulary(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    kana = models.TextField()
+    kanji = models.TextField()
+    polish = models.TextField()
+    def __str__(self):
+        return self.polish
+
