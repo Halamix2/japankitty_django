@@ -29,6 +29,12 @@ Default superuser is admin/admin.
 python manage.py runserver
 ```
 
+Client id:
+JCyUncgFfufgNUW014WLA7nXw1DkOTbZV5Ritlv0
+
+secret:
+e7EZc3x0izr3EfB0r0L1gnoIKe8ckOChujs6LwG882xYWwW3JGo90cW508xLFf9EUPaP8zDKEg76zsh5TqtAamSFn7R0q1aVXg0Aj20nwjpyJZgFS2WtujBmGdDninGh
+
 # Endopints that doesn't require authentication
 Trailing / is very important
 
