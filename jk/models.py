@@ -27,7 +27,16 @@ class Vocabulary(models.Model):
     def __str__(self):
         return self.polish
 
+class Text(models.Model):
+    offerDescription = models.TextField()
+    offerOption1 = models.TextField()
+    offerOption2 = models.TextField()
+    offerOption3 = models.TextField()
+    contactDescription = models.TextField()
+    aboutCourse = models.TextField()
+
 class User(AbstractUser):
     #does user want to show their progress to others?
     show_progress = models.BooleanField(default=True)
+
 

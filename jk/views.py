@@ -43,6 +43,12 @@ def vocabulary(request, id):
     #allow returning non-dict data, an array in our case
     return JsonResponse(data, safe=False)
 
+def texts(request):
+    data = list(Text.objects.values())
+
+    #allow returning non-dict data, an array in our case
+    return JsonResponse(data, safe=False)
+
 class UserRegister(CsrfExemptMixin, OAuthLibMixin, APIView):
     permission_classes = (permissions.AllowAny,)
 
