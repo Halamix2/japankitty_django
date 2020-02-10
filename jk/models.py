@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class Course(models.Model):
@@ -25,4 +26,8 @@ class Vocabulary(models.Model):
     polish = models.TextField()
     def __str__(self):
         return self.polish
+
+class User(AbstractUser):
+    #does user want to show their progress to others?
+    show_progress = models.BooleanField(default=True)
 
