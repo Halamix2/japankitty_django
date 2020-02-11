@@ -38,5 +38,7 @@ class Text(models.Model):
 class User(AbstractUser):
     #does user want to show their progress to others?
     show_progress = models.BooleanField(default=True)
-
-
+    sex = models.TextField(null=True, default='unknown')
+    surname = models.TextField(null=True)
+    birthday = models.DateField(null=True)
+    role = models.TextField(default='user')
