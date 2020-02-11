@@ -10,6 +10,8 @@ urlpatterns = [
         path('v1/', include(
             [
             path('courses/', views.courses),
+            path('courses/kanji/<int:id>/', views.kanji),
+            path('courses/vocabulary/<int:id>/', views.vocabulary),
             path('kanji/<int:id>/', views.kanji),
             path('vocabulary/<int:id>/', views.vocabulary),
             path('texts/', views.texts),
