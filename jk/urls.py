@@ -5,10 +5,11 @@ from django.http import JsonResponse
 from . import views
 
 urlpatterns = [
-    path('api/v1/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    
     path('api/', include([
         path('v1/', include(
             [
+            path('token/', views.CustomTokenView.as_view()),
             path('courses/', views.courses),
             path('courses/kanji/', views.kanji_all),
             path('courses/vocabulary/', views.vocabulary_all),
@@ -25,5 +26,6 @@ urlpatterns = [
             path('edit-text/', views.EditText.as_view()),
             ])
         ),
+        path('api/v1/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     ])),
 ]
