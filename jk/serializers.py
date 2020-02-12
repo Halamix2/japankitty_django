@@ -84,7 +84,14 @@ class EditUserSerializer(serializers.ModelSerializer):
 
 
 class EditUserSerializer(serializers.ModelSerializer):
-    
+    new_name = serializers.CharField(required=False)
+    new_email = serializers.EmailField(required=False)
+    new_password = serializers.CharField(required=False)
+
+    new_sex = serializers.CharField(required=False)
+    new_surname = serializers.CharField(required=False)
+    new_birthday = serializers.DateField(required=False)
+
     def validate(self, data):
         try:
             user = User.objects.filter(username=data.get('new_username'))
@@ -98,22 +105,22 @@ class EditUserSerializer(serializers.ModelSerializer):
         for attr, value in validated_data.items():
             if attr == 'new_password':
                 instance.set_password(value)
-            if attr == 'new_name':
-                setattr(instance, 'name', value)
-            if attr == 'new_email':
+            elif attr == 'new_name':
+                setattr(instance, 'username', value)
+            elif attr == 'new_email':
                 setattr(instance, 'email', value)
-            if attr == 'new_sex':
+            elif attr == 'new_sex':
                 setattr(instance, 'sex', value)
-            if attr == 'new_surname':
+            elif attr == 'new_surname':
                 setattr(instance, 'surname', value)
-            if attr == 'new_birthday':
+            elif attr == 'new_birthday':
                 setattr(instance, 'birthday', value)
         instance.save()
         return instance
     
     class Meta:
         model = User
-        fields = ('new_username', 'new_email', 'new_password', 'new_sex', 'new_surname', 'new_birthday')
+        fields = ('new_name', 'new_email', 'new_password', 'new_sex', 'new_surname', 'new_birthday')
 
 class ProgressSerializer(serializers.ModelSerializer):
     game = serializers.IntegerField()
