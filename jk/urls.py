@@ -11,8 +11,8 @@ urlpatterns = [
             [
             path('token/', views.CustomTokenView.as_view()),
             path('courses/', views.courses),
-            path('courses/kanji/', views.kanji_all),
-            path('courses/vocabulary/', views.vocabulary_all),
+            path('courses/kanji/', views.courses_kanji),
+            path('courses/vocabulary/', views.courses_vocabulary),
             path('kanji/<int:id>/', views.kanji),
             path('vocabulary/<int:id>/', views.vocabulary),
             path('kanji/', views.kanji_all),

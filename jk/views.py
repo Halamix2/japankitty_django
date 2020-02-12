@@ -34,6 +34,17 @@ def courses(request):
 
     #allow returning non-dict data, an array in our case
     return JsonResponse(data, safe=False)
+def courses_kanji(request):
+    data = list(Course.objects.filter(course_type='kanji').values())
+
+    #allow returning non-dict data, an array in our case
+    return JsonResponse(data, safe=False)
+
+def courses_vocabulary(request):
+    data = list(Course.objects.filter(course_type='vocabulary').values())
+
+    #allow returning non-dict data, an array in our case
+    return JsonResponse(data, safe=False)
 
 def kanji(request, id):
     data = list(Kanji.objects.filter(course=id).values())
