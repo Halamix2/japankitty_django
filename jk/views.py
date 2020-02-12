@@ -36,7 +36,7 @@ def kanji(request, id):
     #allow returning non-dict data, an array in our case
     return JsonResponse(data, safe=False)
     
-def kanji_all(request, id):
+def kanji_all(request):
     data = list(Kanji.objects.values())
 
     #allow returning non-dict data, an array in our case
@@ -48,7 +48,7 @@ def vocabulary(request, id):
     #allow returning non-dict data, an array in our case
     return JsonResponse(data, safe=False)
 
-def vocabulary_all(request, id):
+def vocabulary_all(request):
     data = list(Vocabulary.objects.values())
 
     #allow returning non-dict data, an array in our case
@@ -60,7 +60,7 @@ def texts(request):
     #allow returning non-dict data, an array in our case
     return JsonResponse(data, safe=False)
 
-class UserRegister(CsrfExemptMixin, OAuthLibMixin, APIView):
+class UserRegister(OAuthLibMixin, APIView):
     #authentication_classes = [authentication.BasicAuthentication]
     
     permission_classes = (permissions.AllowAny,)
