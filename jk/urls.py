@@ -26,6 +26,6 @@ urlpatterns = [
             path('edit-text/', views.EditText.as_view()),
             ])
         ),
-        path('api/v1/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     ])),
+    path('api/v1/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
