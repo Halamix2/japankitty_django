@@ -17,6 +17,7 @@ urlpatterns = [
             path('texts/', views.texts),
             path('register/', views.UserRegister.as_view()),
             path('get-details/', views.GetDetails.as_view()),
+            path('users/', views.ListAllUsers.as_view()),
             ])
         ),
     ])),
@@ -25,6 +26,5 @@ urlpatterns = [
 '''
         path('edit-account', views.EditAccount.as_view()), #POST only
         path('progress', views.ProgressController.as_view()),
-        path('users', views.ListAllUsers.as_view()), #GET only
         path('edit-text', views.EditText.as_view()), #POST only
 '''

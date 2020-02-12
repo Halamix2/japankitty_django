@@ -114,7 +114,7 @@ class GetDetails(APIView):
         if user.is_staff == 1:
             userLimited['role'] = 'admin'
         else:
-            userLimited['rolee'] = 'user'
+            userLimited['role'] = 'user'
         
         userLimited['status'] = user.status
 
@@ -137,7 +137,7 @@ class GetDetails(APIView):
         if user.is_staff == 1:
             userLimited['role'] = 'admin'
         else:
-            userLimited['rolee'] = 'user'
+            userLimited['role'] = 'user'
 
         userLimited['status'] = user.status
 
@@ -146,10 +146,35 @@ class GetDetails(APIView):
 
         return JsonResponse(odp, safe=False)
 
+class ListAllUsers(APIView):
+    permission_classes = (permissions.IsAdminUser,)
+
+    def get(self, request):
+        data = list(User.objects.values())
+        users = []
+        for user in data:
+            userLimited = dict()
+            userLimited['id'] = user['id']
+            userLimited['name'] = user['username']
+            userLimited['email'] = user['email']
+            userLimited['surname'] = user['surname']
+            userLimited['birthday'] = user['birthday']
+            if user['is_staff'] == 1:
+                userLimited['role'] = 'admin'
+            else:
+                userLimited['rolee'] = 'user'
+            userLimited['status'] = user['status']
+
+            #users = DB::table('users')->select('id', 'name', 'email', 'created_at', 'updated_at', 'sex', 'surname', 'birthday', 'role', 'status')->get();
+            users.append(userLimited)
+
+        resp = dict()
+        resp['success'] = users
+        #allow returning non-dict data, an array in our case
+        return JsonResponse(resp, safe=False)
 
 '''
         path('edit-account', views.EditAccount.as_view()), #POST only
         path('progress', views.ProgressController.as_view()),
-        path('users', views.ListAllUsers.as_view()), #GET only
         path('edit-text', views.EditText.as_view()), #POST only
 '''
