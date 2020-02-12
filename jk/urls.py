@@ -10,10 +10,12 @@ urlpatterns = [
         path('v1/', include(
             [
             path('courses/', views.courses),
-            path('courses/kanji/<int:id>/', views.kanji),
-            path('courses/vocabulary/<int:id>/', views.vocabulary),
+            path('courses/kanji/', views.kanji_all),
+            path('courses/vocabulary/', views.vocabulary_all),
             path('kanji/<int:id>/', views.kanji),
             path('vocabulary/<int:id>/', views.vocabulary),
+            path('kanji/', views.kanji_all),
+            path('vocabulary/', views.vocabulary_all),
             path('texts/', views.texts),
             path('register/', views.UserRegister.as_view()),
             path('get-details/', views.GetDetails.as_view()),
