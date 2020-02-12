@@ -19,12 +19,12 @@ urlpatterns = [
             path('get-details/', views.GetDetails.as_view()),
             path('users/', views.ListAllUsers.as_view()),
             path('edit-account/', views.EditAccount.as_view()),
+            path('progress/', views.ProgressController.as_view()),
             ])
         ),
     ])),
 ]
 
 '''
-        path('progress', views.ProgressController.as_view()),
         path('edit-text', views.EditText.as_view()), #POST only
 '''
