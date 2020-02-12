@@ -42,3 +42,11 @@ class User(AbstractUser):
     surname = models.TextField(null=True)
     birthday = models.DateField(null=True)
     status = models.TextField(default='active')
+
+class Progress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    game = models.IntegerField()
+    #TODO check if this holds true
+    category = models.ForeignKey(Course, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    max_points = models.IntegerField()
