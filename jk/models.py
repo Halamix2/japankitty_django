@@ -42,3 +42,4 @@ class User(AbstractUser):
     surname = models.TextField(null=True)
     birthday = models.DateField(null=True)
     role = models.TextField(default='user')
+    status = models.TextField(default='active')

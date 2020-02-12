@@ -22,7 +22,6 @@ from django.views.decorators.debug import sensitive_post_parameters
 from oauth2_provider.models import AccessToken
 import re
 
-
 # Create your views here.
 
 def courses(request):
@@ -77,3 +76,85 @@ class UserRegister(CsrfExemptMixin, OAuthLibMixin, APIView):
             return JsonResponse(data=serializer.errors, safe=False, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse([], safe=False, status=status.HTTP_403_FORBIDDEN)
 
+def getUser(request):
+    app_tk = request.META["HTTP_AUTHORIZATION"]
+    m = re.search('(Bearer)(\s)(.*)', app_tk)
+    app_tk = m.group(3)
+    acc_tk = AccessToken.objects.get(token=app_tk)
+    user = acc_tk.user
+
+    return user
+
+class Template(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        user = getUser(request)
+        return JsonResponse(user.id, safe=False)
+
+    def post(self, request):
+        user = getUser(request)
+        
+        userLimited = dict()
+        userLimited['id'] = user.id
+        userLimited['name'] = user.username
+        userLimited['email'] = user.email
+        userLimited['sex'] = user.sex
+        userLimited['surname'] = user.surname
+        userLimited['surname'] = user.birthday
+        userLimited['role'] = user.role
+        userLimited['status'] = user.status
+
+        odp = dict()
+        odp['success'] = userLimited
+
+        return JsonResponse(odp, safe=False)
+
+
+class GetDetails(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        user = getUser(request)
+        
+        userLimited = dict()
+        userLimited['id'] = user.id
+        userLimited['name'] = user.username
+        userLimited['email'] = user.email
+        userLimited['sex'] = user.sex
+        userLimited['surname'] = user.surname
+        userLimited['surname'] = user.birthday
+        userLimited['role'] = user.role
+        userLimited['status'] = user.status
+
+        odp = dict()
+        odp['success'] = userLimited
+
+        return JsonResponse(odp, safe=False)
+    
+    def post(self, request):
+        user = getUser(request)
+        
+        userLimited = dict()
+        userLimited['id'] = user.id
+        userLimited['name'] = user.username
+        userLimited['email'] = user.email
+        userLimited['sex'] = user.sex
+        userLimited['surname'] = user.surname
+        userLimited['surname'] = user.birthday
+        userLimited['role'] = user.role
+        userLimited['status'] = user.status
+
+        odp = dict()
+        odp['success'] = userLimited
+
+        return JsonResponse(odp, safe=False)
+
+
+'''
+        path('get-details', views.GetDetails.as_view()),
+        path('edit-account', views.EditAccount.as_view()), #POST only
+        path('progress', views.ProgressController.as_view()),
+        path('users', views.ListAllUsers.as_view()), #GET only
+        path('edit-text', views.EditText.as_view()), #POST only
+'''
