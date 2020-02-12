@@ -112,8 +112,9 @@ class UserRegister(OAuthLibMixin, APIView):
 
                         if token_status != 200:
                             raise Exception(json.loads(body).get("error_description", body))
-
-                        return JsonResponse(json.loads(body), safe=False, status=token_status)
+                        data = json.loads(body)
+                        data['role'] = 'user'
+                        return JsonResponse(data, safe=False, status=token_status)
                 except Exception as e:
                     return JsonResponse(data={"error": (str(e))}, safe=False, status=status.HTTP_400_BAD_REQUEST)
             return JsonResponse(data=serializer.errors, safe=False, status=status.HTTP_400_BAD_REQUEST)
