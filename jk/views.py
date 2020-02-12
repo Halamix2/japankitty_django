@@ -162,7 +162,7 @@ class ListAllUsers(APIView):
             if user['is_staff'] == 1:
                 userLimited['role'] = 'admin'
             else:
-                userLimited['rolee'] = 'user'
+                userLimited['role'] = 'user'
             userLimited['status'] = user['status']
 
             #users = DB::table('users')->select('id', 'name', 'email', 'created_at', 'updated_at', 'sex', 'surname', 'birthday', 'role', 'status')->get();
