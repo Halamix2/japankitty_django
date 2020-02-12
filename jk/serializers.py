@@ -66,15 +66,15 @@ class EditUserSerializer(serializers.ModelSerializer):
         for attr, value in validated_data.items():
             if attr == 'new_password':
                 instance.set_password(value)
-            elif attr == 'new_name':
+            if attr == 'new_name':
                 setattr(instance, 'name', value)
-            elif attr == 'new_email':
+            if attr == 'new_email':
                 setattr(instance, 'email', value)
-            elif attr == 'new_sex':
+            if attr == 'new_sex':
                 setattr(instance, 'sex', value)
-            elif attr == 'new_surname':
+            if attr == 'new_surname':
                 setattr(instance, 'surname', value)
-            elif attr == 'new_birthday':
+            if attr == 'new_birthday':
                 setattr(instance, 'birthday', value)
         instance.save()
         return instance
