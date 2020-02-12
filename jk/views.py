@@ -6,7 +6,7 @@ from .models import Course, Kanji, Vocabulary, Text, User, Progress
 from .serializers import RegisterSerializer, EditUserSerializer, ProgressSerializer, TextSerializer
 #registration
 from rest_framework.views import APIView
-from rest_framework import status, permissions
+from rest_framework import status, permissions, authentication
 from oauth2_provider.settings import oauth2_settings
 from braces.views import CsrfExemptMixin
 from oauth2_provider.views.mixins import OAuthLibMixin
@@ -36,8 +36,20 @@ def kanji(request, id):
     #allow returning non-dict data, an array in our case
     return JsonResponse(data, safe=False)
     
+def kanji_all(request, id):
+    data = list(Kanji.objects.values())
+
+    #allow returning non-dict data, an array in our case
+    return JsonResponse(data, safe=False)
+
 def vocabulary(request, id):
     data = list(Vocabulary.objects.filter(course=id).values())
+
+    #allow returning non-dict data, an array in our case
+    return JsonResponse(data, safe=False)
+
+def vocabulary_all(request, id):
+    data = list(Vocabulary.objects.values())
 
     #allow returning non-dict data, an array in our case
     return JsonResponse(data, safe=False)
@@ -49,6 +61,8 @@ def texts(request):
     return JsonResponse(data, safe=False)
 
 class UserRegister(CsrfExemptMixin, OAuthLibMixin, APIView):
+    #authentication_classes = [authentication.BasicAuthentication]
+    
     permission_classes = (permissions.AllowAny,)
 
     server_class = oauth2_settings.OAUTH2_SERVER_CLASS
