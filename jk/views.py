@@ -94,21 +94,8 @@ class Template(APIView):
 
     def post(self, request):
         user = getUser(request)
-        
-        userLimited = dict()
-        userLimited['id'] = user.id
-        userLimited['name'] = user.username
-        userLimited['email'] = user.email
-        userLimited['sex'] = user.sex
-        userLimited['surname'] = user.surname
-        userLimited['surname'] = user.birthday
-        userLimited['role'] = user.role
-        userLimited['status'] = user.status
 
-        odp = dict()
-        odp['success'] = userLimited
-
-        return JsonResponse(odp, safe=False)
+        return JsonResponse(user.id, safe=False)
 
 
 class GetDetails(APIView):
@@ -124,7 +111,11 @@ class GetDetails(APIView):
         userLimited['sex'] = user.sex
         userLimited['surname'] = user.surname
         userLimited['surname'] = user.birthday
-        userLimited['role'] = user.role
+        if user.is_staff == 1:
+            userLimited['role'] = 'admin'
+        else:
+            userLimited['rolee'] = 'user'
+        
         userLimited['status'] = user.status
 
         odp = dict()
@@ -142,7 +133,12 @@ class GetDetails(APIView):
         userLimited['sex'] = user.sex
         userLimited['surname'] = user.surname
         userLimited['surname'] = user.birthday
-        userLimited['role'] = user.role
+
+        if user.is_staff == 1:
+            userLimited['role'] = 'admin'
+        else:
+            userLimited['rolee'] = 'user'
+
         userLimited['status'] = user.status
 
         odp = dict()
@@ -152,7 +148,6 @@ class GetDetails(APIView):
 
 
 '''
-        path('get-details', views.GetDetails.as_view()),
         path('edit-account', views.EditAccount.as_view()), #POST only
         path('progress', views.ProgressController.as_view()),
         path('users', views.ListAllUsers.as_view()), #GET only

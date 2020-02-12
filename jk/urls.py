@@ -23,7 +23,6 @@ urlpatterns = [
 ]
 
 '''
-        path('get-details', views.GetDetails.as_view()),
         path('edit-account', views.EditAccount.as_view()), #POST only
         path('progress', views.ProgressController.as_view()),
         path('users', views.ListAllUsers.as_view()), #GET only
