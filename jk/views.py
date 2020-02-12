@@ -165,7 +165,7 @@ class GetDetails(APIView):
         userLimited['email'] = user.email
         userLimited['sex'] = user.sex
         userLimited['surname'] = user.surname
-        userLimited['surname'] = user.birthday
+        userLimited['birthday'] = user.birthday
         if user.is_staff == 1:
             userLimited['role'] = 'admin'
         else:
@@ -187,7 +187,7 @@ class GetDetails(APIView):
         userLimited['email'] = user.email
         userLimited['sex'] = user.sex
         userLimited['surname'] = user.surname
-        userLimited['surname'] = user.birthday
+        userLimited['birthday'] = user.birthday
 
         if user.is_staff == 1:
             userLimited['role'] = 'admin'
