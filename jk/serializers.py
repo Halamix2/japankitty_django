@@ -19,9 +19,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         if not data.get('password'):# or not data.get('confirm_password'):
             raise serializers.ValidationError(_("Empty password"))
 
-        #if data.get('password') != data.get('confirm_password'):
-        #    raise serializers.ValidationError(_("Password mismatch"))
-
         return data
     
     def create(self, validated_data):
@@ -45,3 +42,42 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'email', 'password')#, 'confirm_password')
         #extra_kwargs = {'confirm_password': {'read_only': True}}
+
+class EditUserSerializer(serializers.ModelSerializer):
+    new_username = serializers.CharField(required=False)
+    new_email = serializers.EmailField(required=False)
+    new_password = serializers.CharField(required=False)
+
+    new_sex = serializers.CharField(required=False)
+    new_surname = serializers.CharField(required=False)
+    new_birthday = serializers.DateField(required=False)
+
+
+    def validate(self, data):
+        try:
+            user = User.objects.filter(username=data.get('new_username'))
+            if len(user) > 0:
+                raise serializers.ValidationError(_("Username already exists"))
+        except User.DoesNotExist:
+            raise serializers.ValidationError(_('User doesn\'t exist'))
+        return data
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'new_password':
+                instance.set_password(value)
+            elif attr == 'new_name':
+                setattr(instance, 'name', value)
+            elif attr == 'new_email':
+                setattr(instance, 'email', value)
+            elif attr == 'new_sex':
+                setattr(instance, 'sex', value)
+            elif attr == 'new_surname':
+                setattr(instance, 'surname', value)
+            elif attr == 'new_birthday':
+                setattr(instance, 'birthday', value)
+        instance.save()
+        return instance
+    class Meta:
+        model = User
+        fields = ('new_username', 'new_email', 'new_password', 'new_sex', 'new_surname', 'new_birthday')

@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
 from .models import Course, Kanji, Vocabulary, Text, User
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, EditUserSerializer
 #registration
 from rest_framework.views import APIView
 from rest_framework import status, permissions
@@ -157,6 +157,7 @@ class ListAllUsers(APIView):
             userLimited['id'] = user['id']
             userLimited['name'] = user['username']
             userLimited['email'] = user['email']
+            userLimited['sex'] = user['sex']
             userLimited['surname'] = user['surname']
             userLimited['birthday'] = user['birthday']
             if user['is_staff'] == 1:
@@ -173,8 +174,37 @@ class ListAllUsers(APIView):
         #allow returning non-dict data, an array in our case
         return JsonResponse(resp, safe=False)
 
+
+class EditAccount(APIView): #OAuthLibMixin
+    permission_classes = (permissions.IsAuthenticated,)
+
+    server_class = oauth2_settings.OAUTH2_SERVER_CLASS
+    validator_class = oauth2_settings.OAUTH2_VALIDATOR_CLASS
+    oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
+
+    def post(self, request, *args, **kwargs):
+        user = getUser(request)
+        data = request.data
+        data = data.dict()
+        serializer = EditUserSerializer(data=data)
+        
+        try:
+            if serializer.is_valid(True):
+                try:
+                    user = serializer.update(user, serializer.validated_data)
+
+                    resp = dict()
+                    resp['success'] = 'success'
+                    return JsonResponse(resp, safe=False)
+                except Exception as e:
+                    return JsonResponse(data={"error": (str(e))}, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse(str(e), safe=False, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request)
+
 '''
-        path('edit-account', views.EditAccount.as_view()), #POST only
         path('progress', views.ProgressController.as_view()),
         path('edit-text', views.EditText.as_view()), #POST only
 '''
