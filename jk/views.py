@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
 from .models import Course, Kanji, Vocabulary, Text, User, Progress
-from .serializers import RegisterSerializer, EditUserSerializer, ProgressSerializer
+from .serializers import RegisterSerializer, EditUserSerializer, ProgressSerializer, TextSerializer
 #registration
 from rest_framework.views import APIView
 from rest_framework import status, permissions
@@ -235,7 +235,27 @@ class ProgressController(APIView):
                     return JsonResponse(data={"error": (str(e))}, safe=False, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return JsonResponse(str(e), safe=False, status=status.HTTP_400_BAD_REQUEST)
+class EditText(APIView):
+    permission_classes = (permissions.IsAdminUser,)
 
-'''
-        path('edit-text', views.EditText.as_view()), #POST only
-'''
+    def post(self, request):
+        data = request.data
+        data = data.dict()
+        serializer = TextSerializer(data=data)
+        
+        try:
+            if serializer.is_valid(True):
+                try:
+                    instance = Text.objects.filter(id=data['id']).first()
+                    if(instance):
+                        text = serializer.update(instance, serializer.validated_data)
+                    else:
+                        return JsonResponse("No such id", safe=False)
+                    
+                    resp = dict()
+                    resp['success'] = 'success'
+                    return JsonResponse(resp, safe=False)
+                except Exception as e:
+                    return JsonResponse(data={"error": (str(e))}, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse(str(e), safe=False, status=status.HTTP_400_BAD_REQUEST)

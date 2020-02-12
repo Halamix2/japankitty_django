@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Progress, Course
+from .models import User, Progress, Course, Text
 from django.utils.translation import gettext_lazy as _
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -153,3 +153,25 @@ class ProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Progress
         fields = ('user', 'game', 'category', 'score', 'max_points')
+
+class TextSerializer(serializers.ModelSerializer):
+    offerDescription = serializers.CharField()
+    offerOption1 = serializers.CharField()
+    offerOption2 = serializers.CharField()
+    offerOption3 = serializers.CharField()
+    contactDescription = serializers.CharField()
+    aboutCourse = serializers.CharField()
+
+    def validate(self, data):
+        return data
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr != 'id':
+                setattr(instance, attr, value)
+        instance.save()
+        return instance
+    
+    class Meta:
+        model = Text
+        fields = ('offerDescription', 'offerOption1', 'offerOption2', 'offerOption3', 'contactDescription', 'aboutCourse')
