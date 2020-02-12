@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
-from .models import Course, Kanji, Vocabulary, Text, User
-from .serializers import RegisterSerializer, EditUserSerializer
+from .models import Course, Kanji, Vocabulary, Text, User, Progress
+from .serializers import RegisterSerializer, EditUserSerializer, ProgressSerializer, TextSerializer
 #registration
 from rest_framework.views import APIView
 from rest_framework import status, permissions
@@ -182,7 +182,7 @@ class EditAccount(APIView): #OAuthLibMixin
     validator_class = oauth2_settings.OAUTH2_VALIDATOR_CLASS
     oauthlib_backend_class = oauth2_settings.OAUTH2_BACKEND_CLASS
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user = getUser(request)
         data = request.data
         data = data.dict()
@@ -201,10 +201,61 @@ class EditAccount(APIView): #OAuthLibMixin
         except Exception as e:
             return JsonResponse(str(e), safe=False, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request)
+class ProgressController(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
 
-'''
-        path('progress', views.ProgressController.as_view()),
-        path('edit-text', views.EditText.as_view()), #POST only
-'''
+    def get(self, request):
+        user = getUser(request)
+
+        data = list(Progress.objects.filter(user_id=user.id).values())
+        return JsonResponse(data, safe=False)
+
+    def post(self, request):
+        user = getUser(request)
+        data = request.data
+        data = data.dict()
+        data['user'] = str(user.id)
+        serializer = ProgressSerializer(data=data)
+        
+        try:
+            if serializer.is_valid(True):
+                try:
+                    #instance = Progress.objects.filter(user_id=user.id, category_id=data['category'])
+                    instance = Progress.objects.filter(user_id=user.id, game=data['game'], category_id=data['category']).first()
+
+                    if(instance):
+                        progress = serializer.update(instance, serializer.validated_data)
+                    else: 
+                        progress = serializer.save() #user, serializer.validated_data)
+
+                    resp = dict()
+                    resp['success'] = 'success'
+                    return JsonResponse(resp, safe=False)
+                except Exception as e:
+                    return JsonResponse(data={"error": (str(e))}, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse(str(e), safe=False, status=status.HTTP_400_BAD_REQUEST)
+class EditText(APIView):
+    permission_classes = (permissions.IsAdminUser,)
+
+    def post(self, request):
+        data = request.data
+        data = data.dict()
+        serializer = TextSerializer(data=data)
+        
+        try:
+            if serializer.is_valid(True):
+                try:
+                    instance = Text.objects.filter(id=data['id']).first()
+                    if(instance):
+                        text = serializer.update(instance, serializer.validated_data)
+                    else:
+                        return JsonResponse("No such id", safe=False)
+                    
+                    resp = dict()
+                    resp['success'] = 'success'
+                    return JsonResponse(resp, safe=False)
+                except Exception as e:
+                    return JsonResponse(data={"error": (str(e))}, safe=False, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse(str(e), safe=False, status=status.HTTP_400_BAD_REQUEST)
